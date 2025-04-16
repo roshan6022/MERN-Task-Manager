@@ -3,6 +3,7 @@ import AuthLayout from "../../components/layouts/AuthLayout";
 import { validateEmail } from "../../utils/helper";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
 import Input from "../../components/Inputs/Input";
+import { Link } from "react-router-dom";
 export default function SignUp() {
   const [profilePic, setProfilePic] = useState(null);
   const [fullName, setFullName] = useState("");
@@ -36,9 +37,7 @@ export default function SignUp() {
   return (
     <AuthLayout>
       <div className="lg:w-[100%] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center">
-        <h3 className="text-xl font-semibold text-black">
-          Create an <Account></Account>
-        </h3>
+        <h3 className="text-xl font-semibold text-black">Create an Account</h3>
         <p className="text-xs text-slate-700 mt-[5px] mb-6">
           Join us today by entering your details below.
         </p>
@@ -69,7 +68,7 @@ export default function SignUp() {
             />
             <Input
               value={adminInviteToken}
-              onChange={({ target }) => setPassword(target.value)}
+              onChange={({ target }) => setAdminInviteToken(target.value)}
               label="Admin Invite Token"
               placeholder="6 Digit code"
               type="text"
@@ -84,7 +83,7 @@ export default function SignUp() {
           <p className="text-[13px] text-slate-800 mt-3">
             Have an account?{" "}
             <Link className="font-medium text-primary underline" to="/login">
-              LoginIn
+              LogIn
             </Link>
           </p>
         </form>
