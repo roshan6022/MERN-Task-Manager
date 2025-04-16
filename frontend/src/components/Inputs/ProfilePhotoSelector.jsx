@@ -26,7 +26,7 @@ export default function ProfilePhotoSelector({ image, setImage }) {
   };
 
   return (
-    <div className="flex justify-center mb-6">
+    <div className="flex items-center justify-center mb-6">
       <input
         type="file"
         accept="image/*"

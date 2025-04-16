@@ -2,11 +2,16 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 import connectDB from "./config/db.js"; //add .js extenstion
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 dotenv.config();
 
