@@ -48,7 +48,7 @@ export const TaskListTable = ({ tableData }) => {
           </tr>
         </thead>
         <tbody>
-          {tableData?.map((task) => {
+          {tableData?.map((task) => (
             <tr key={task._id} className="border-t border-gray-200">
               <td className="py-3 px-4 text-gray-700 text-[13px] line-clamp-1 overflow-hidden max-w-[200px]">
                 {task.title}
@@ -82,8 +82,8 @@ export const TaskListTable = ({ tableData }) => {
                   ? moment(task.createdAt).format("Do MMM YYYY")
                   : "N/A"}
               </td>
-            </tr>;
-          })}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
