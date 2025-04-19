@@ -11,6 +11,7 @@ import SelectDropdown from "../../components/Inputs/SelectDropdown";
 import SelectUsers from "../../components/Inputs/SelectUsers";
 import TodoListInput from "../../components/Inputs/TodoListInput";
 import AddAttachmentsInput from "../../components/Inputs/AddAttachmentsInput";
+import { Toaster } from "react-hot-toast";
 
 const CreateTask = () => {
   const location = useLocation();
@@ -52,13 +53,67 @@ const CreateTask = () => {
   };
 
   // Create Task
-  const createTask = async () => {};
+  const createTask = async () => {
+    setLoading(true);
+    try {
+      const todolist = taskData.todoChecklist?.map((item) => ({
+        text: item,
+        completed: false,
+      }));
+
+      const response = await axiosInstance.post(API_PATHS.TASKS.CREATE_TASK, {
+        ...taskData,
+        dueDate: new Date(taskData.dueDate).toISOString(),
+        todoChecklist: todolist,
+      });
+
+      toast.success("Task Created Successfully");
+      clearData();
+    } catch (error) {
+      console.error("Error creating task:", error);
+      toast.error("Failed to create task"); // optional user feedback
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Update Task
   const updateTask = async () => {};
+
   // handle Submit
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    setError(null);
+    // Input validation
+    if (!taskData.title.trim()) {
+      setError("Title is required.");
+      return;
+    }
+    if (!taskData.description.trim()) {
+      setError("Description is required.");
+      return;
+    }
+    if (!taskData.dueDate) {
+      setError("Due date is required.");
+      return;
+    }
+    if (taskData.assignedTo?.length === 0) {
+      setError("Task not assigned to any member.");
+      return;
+    }
+    if (taskData.todoChecklist?.length === 0) {
+      setError("Add atleast one todo task");
+      return;
+    }
+    if (taskId) {
+      updateTask();
+      return;
+    }
+    createTask();
+  };
+
   // get Task info by ID
   const getTaskDetailsByID = async () => {};
+
   // Delete Task
   const deleteTask = async () => {};
 
@@ -148,7 +203,7 @@ const CreateTask = () => {
                 <SelectUsers
                   selectedUsers={taskData.assignedTo}
                   setSelectedUsers={(value) => {
-                    handleValueChange("assingnedTo", value);
+                    handleValueChange("assignedTo", value);
                   }}
                 />
               </div>
