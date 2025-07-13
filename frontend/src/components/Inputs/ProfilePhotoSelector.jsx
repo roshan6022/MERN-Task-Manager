@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { LuUser, LuUpload, LuTrash } from "react-icons/lu";
+
 export default function ProfilePhotoSelector({ image, setImage }) {
   const inputRef = useRef(null);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -22,31 +23,34 @@ export default function ProfilePhotoSelector({ image, setImage }) {
   };
 
   const onChooseFile = () => {
-    inputRef.current.click();
+    inputRef.current?.click();
   };
 
   return (
-    <div className="flex items-center justify-center mb-6">
+    <div className="flex flex-col items-center justify-center mb-6">
+      {/* Hidden Input */}
       <input
         type="file"
         accept="image/*"
         ref={inputRef}
         onChange={handleImageChange}
-        className=""
+        className="hidden"
       />
 
       {!image ? (
-        <div className="w-20 h-20 flex items-center justify-center bg-blue-100/50 rounded-full relative cursor-pointer">
+        // Avatar + Upload Button
+        <div className="w-20 h-20 flex items-center justify-center bg-blue-100/50 rounded-full relative">
           <LuUser className="text-4xl text-primary" />
           <button
             type="button"
-            className="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full absolute -bottom-1 -right-1 cursor-pointer"
+            className="w-8 h-8 flex items-center justify-center bg-primary text-white rounded-full absolute -bottom-1 -right-1"
             onClick={onChooseFile}
           >
             <LuUpload />
           </button>
         </div>
       ) : (
+        // Show Preview + Remove Button
         <div className="relative">
           <img
             src={previewUrl}
@@ -55,7 +59,7 @@ export default function ProfilePhotoSelector({ image, setImage }) {
           />
           <button
             type="button"
-            className="w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full abosulte -bottom-1 -right-1"
+            className="w-8 h-8 flex items-center justify-center bg-red-500 text-white rounded-full absolute -bottom-1 -right-1"
             onClick={handleRemoveImage}
           >
             <LuTrash />
