@@ -74,7 +74,7 @@ A full-stack task management app built using the MERN stack (MongoDB, Express, R
 | POST   | `/api/tasks`         | Create a new task          | ✅        |
 | PUT    | `/api/tasks/:taskId` | Update a task              | ✅        |
 | DELETE | `/api/tasks/:taskId` | Remove a task              | ✅        |
-| GET    | `/api/profile`       | Retrieve user profile      | ✅        |
+<!--| GET    | `/api/profile`       | Retrieve user profile      | ✅        | -->
 
 ## App Pages/Routes
 
