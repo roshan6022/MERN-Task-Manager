@@ -144,7 +144,7 @@ const CreateTask = () => {
   const getTaskDetailsByID = async () => {
     try {
       const response = await axiosInstance.get(
-        API_PATHS.TASKS.GET_ALL_TASKS(taskId)
+        API_PATHS.TASKS.GET_TASK_BY_ID(taskId)
       );
       if (response.data) {
         const taskInfo = response.data;
@@ -260,7 +260,7 @@ const CreateTask = () => {
                 <input
                   placeholder="Create App UI"
                   className="form-input"
-                  value={taskData.dueDate}
+                  value={taskData.dueDate || ""}
                   onChange={({ target }) =>
                     handleValueChange("dueDate", target.value)
                   }

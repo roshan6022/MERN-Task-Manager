@@ -16,7 +16,7 @@ import ManageUsers from "./pages/Admin/ManageUsers";
 import UserDashboard from "./pages/User/UserDashboard";
 import MyTasks from "./pages/User/MyTasks";
 import ViewTaskDetails from "./pages/User/ViewTaskDetails";
-import UserProvider, { UserContext } from "./context/userContext";
+import { UserProvider, UserContext } from "./context/userContext";
 import { Toaster } from "react-hot-toast";
 
 export default function App() {
@@ -37,7 +37,7 @@ export default function App() {
             </Route>
 
             {/* User Routes */}
-            <Route element={<PrivateRoute allowedRoles={"admin"} />}>
+            <Route element={<PrivateRoute allowedRoles={"user"} />}>
               <Route path="/user/dashboard" element={<UserDashboard />}></Route>
               <Route path="/user/tasks" element={<MyTasks />}></Route>
               <Route

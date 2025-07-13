@@ -43,7 +43,7 @@ export default function Login() {
       if (token) {
         localStorage.setItem("token", token);
 
-        updateUser(response.data);
+        updateUser({ ...response.data.user, token: response.data.token });
         // Redirect based on role
         if (role === "admin") {
           navigate("/admin/dashboard");

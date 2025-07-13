@@ -4,6 +4,7 @@ import { validateEmail } from "../../utils/helper";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
 import Input from "../../components/Inputs/Input";
 import { API_PATHS } from "../../utils/apiPaths";
+import axiosInstance from "../../utils/axiosInstance.js";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import uploadImage from "../../utils/uploadImage.js";
@@ -21,7 +22,8 @@ export default function SignUp() {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    const profilePic = "";
+    // const profilePic = "";
+    let profileImageUrl = "";
 
     if (!fullName) {
       setError("Please enter full name.");
@@ -60,7 +62,7 @@ export default function SignUp() {
       if (token) {
         localStorage.setItem("token", token);
 
-        updateUser(response.data);
+        updateUser({ ...response.data.user, token: response.data.token });
         // Redirect based on role
         if (role === "admin") {
           navigate("/admin/dashboard");
@@ -74,6 +76,7 @@ export default function SignUp() {
       } else {
         setError("Something went wrong, Please try again.");
       }
+      // setError(error.message);
     }
   };
   return (
