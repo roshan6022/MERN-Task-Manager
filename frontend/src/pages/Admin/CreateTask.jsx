@@ -185,7 +185,7 @@ const CreateTask = () => {
 
   useEffect(() => {
     if (taskId) {
-      getTaskDetailsByID(taskId);
+      getTaskDetailsByID();
     }
     return () => {};
   }, [taskId]);

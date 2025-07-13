@@ -107,26 +107,34 @@ const ManageTasks = () => {
           )}
         </div>
 
-        <div className="grid gird-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {allTasks?.map((item, index) => (
-            <TaskCard
-              key={item._id}
-              title={item.title}
-              description={item.description}
-              priority={item.priority}
-              status={item.status}
-              progress={item.progress}
-              createdAt={item.createdAt}
-              dueDate={item.dueDate}
-              assignedTo={item.assignedTo?.map((item) => item.profileImageUrl)}
-              attachmentCount={item.attachments?.length || 0}
-              completedTodoCount={item.completedTodoCount || 0}
-              todoChecklist={item.todoChecklist || []}
-              onClick={() => {
-                handleClick(item);
-              }}
-            />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          {allTasks.length > 0 ? (
+            allTasks?.map((item, index) => (
+              <TaskCard
+                key={item._id}
+                title={item.title}
+                description={item.description}
+                priority={item.priority}
+                status={item.status}
+                progress={item.progress}
+                createdAt={item.createdAt}
+                dueDate={item.dueDate}
+                assignedTo={item.assignedTo?.map(
+                  (item) => item.profileImageUrl
+                )}
+                attachmentCount={item.attachments?.length || 0}
+                completedTodoCount={item.completedTodoCount || 0}
+                todoChecklist={item.todoChecklist || []}
+                onClick={() => {
+                  handleClick(item);
+                }}
+              />
+            ))
+          ) : (
+            <div className="text-center text-gray-500 mt-10">
+              No tasks found.
+            </div>
+          )}
         </div>
       </div>
     </DashboardLayout>
