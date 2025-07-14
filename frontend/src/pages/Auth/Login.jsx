@@ -31,34 +31,39 @@ export default function Login() {
 
     setError("");
 
-    //Login API Call
     try {
       const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
         email,
         password,
       });
 
-      const { token, role } = response.data;
+      const { token } = response.data;
 
       if (token) {
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", token); // Save token
 
-        updateUser({ ...response.data.user, token: response.data.token });
-        // Redirect based on role
-        if (role === "admin") {
+        // 🔥 Fetch full user profile immediately after login
+        const profileRes = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
+
+        const fullUser = { ...profileRes.data, token };
+        updateUser(fullUser);
+
+        // ✅ No need to wait or setTimeout
+        if (fullUser.role === "admin") {
           navigate("/admin/dashboard");
         } else {
           navigate("/user/dashboard");
         }
       }
     } catch (error) {
-      if (error.response && error.response.data.message) {
+      if (error.response?.data?.message) {
         setError(error.response.data.message);
       } else {
         setError("Something went wrong, Please try again.");
       }
     }
   };
+
   return (
     <AuthLayout>
       <div className="lg:w-[70%] h-3/4 md:h-full flex flex-col justify-center ">

@@ -57,14 +57,19 @@ export default function SignUp() {
         adminInviteToken,
       });
 
-      const { token, role } = response.data;
+      const { token } = response.data;
 
       if (token) {
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", token); // Save token
 
-        updateUser({ ...response.data.user, token: response.data.token });
-        // Redirect based on role
-        if (role === "admin") {
+        // 🔥 Fetch full user profile immediately after login
+        const profileRes = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
+
+        const fullUser = { ...profileRes.data, token };
+        updateUser(fullUser);
+
+        // ✅ No need to wait or setTimeout
+        if (fullUser.role === "admin") {
           navigate("/admin/dashboard");
         } else {
           navigate("/user/dashboard");

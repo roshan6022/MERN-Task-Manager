@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { SIDE_MENU_DATA, SIDE_MENU_USER_DATA } from "../../utils/data.js";
 
 const SideMenu = ({ activeMenu }) => {
-  const { user, clearUser } = useContext(UserContext);
+  const { user, loading, clearUser } = useContext(UserContext);
   const [sideMenuData, setSideMenuData] = useState([]);
 
   const navigate = useNavigate();
@@ -14,7 +14,6 @@ const SideMenu = ({ activeMenu }) => {
       handleLogout();
       return;
     }
-
     navigate(route);
   };
 
@@ -25,13 +24,17 @@ const SideMenu = ({ activeMenu }) => {
   };
 
   useEffect(() => {
+    if (loading) return; // 🛑 Don't run until loading is done
+
     if (user) {
       setSideMenuData(
-        user?.role === "admin" ? SIDE_MENU_DATA : SIDE_MENU_USER_DATA
+        user.role === "admin" ? SIDE_MENU_DATA : SIDE_MENU_USER_DATA
       );
+    } else {
+      // Not logged in or cleared
+      setSideMenuData([]);
     }
-    return () => {};
-  }, [user]);
+  }, [user, loading]); // 💡 Watch both
 
   return (
     <div className="w-64 h-[calc(100vh-61px)] bg-white border-r border-gray-200/500 sticky top-[61px] z-20">
