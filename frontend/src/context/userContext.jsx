@@ -9,7 +9,12 @@ const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true); // New state to track loading
 
   useEffect(() => {
-    if (user) return;
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+      setLoading(false);
+      return;
+    }
 
     const accessToken = localStorage.getItem("token");
     if (!accessToken) {
@@ -20,7 +25,9 @@ const UserProvider = ({ children }) => {
     const fetchUser = async () => {
       try {
         const response = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
-        setUser({ ...response.data, token: accessToken });
+        const userData = { ...response.data, token: accessToken };
+        setUser(userData);
+        localStorage.setItem("user", JSON.stringify(userData)); // ✅ persist fresh fetch
       } catch (error) {
         console.error("User not authenticated", error);
         clearUser();
@@ -28,12 +35,14 @@ const UserProvider = ({ children }) => {
         setLoading(false);
       }
     };
+
     fetchUser();
   }, []);
 
   const updateUser = (userData) => {
     setUser(userData);
-    localStorage.setItem("token", userData.token); //Save token
+    localStorage.setItem("token", userData.token); // ✅ saves token
+    localStorage.setItem("user", JSON.stringify(userData)); // ✅ saves user info (with image)
     setLoading(false);
   };
 

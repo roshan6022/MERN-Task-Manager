@@ -112,12 +112,29 @@ export const updateUserProfile = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+
+    if (req.body.profileImageUrl) {
+      user.profileImageUrl = req.body.profileImageUrl;
+    }
+
+    // Update name and email
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
 
-    if (req.body.password) {
+    // If user wants to change password
+    if (req.body.currentPassword && req.body.newPassword) {
+      const isMatch = await bcrypt.compare(
+        req.body.currentPassword,
+        user.password
+      );
+      if (!isMatch) {
+        return res
+          .status(401)
+          .json({ message: "Current password is incorrect" });
+      }
+
       const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(req.body.password, salt);
+      user.password = await bcrypt.hash(req.body.newPassword, salt);
     }
 
     const updatedUser = await user.save();
@@ -127,6 +144,7 @@ export const updateUserProfile = async (req, res) => {
       name: updatedUser.name,
       email: updatedUser.email,
       role: updatedUser.role,
+      profileImageUrl: updatedUser.profileImageUrl, // ✅ ADD THIS
       token: generatedToken(updatedUser._id),
     });
   } catch (error) {

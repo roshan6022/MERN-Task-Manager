@@ -33,10 +33,6 @@ const ManageTasks = () => {
       ];
 
       setTabs(statusArray);
-      console.log("Fetching tasks with status:", filterStatus);
-      console.log("Tasks received:", response.data?.task);
-      console.log(API_PATHS.TASKS.GET_ALL_TASKS);
-      console.log("Full task API response:", response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }

@@ -8,6 +8,8 @@ import axiosInstance from "../../utils/axiosInstance.js";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import uploadImage from "../../utils/uploadImage.js";
+import axios from "axios";
+
 export default function SignUp() {
   const [profilePic, setProfilePic] = useState(null);
   const [fullName, setFullName] = useState("");
@@ -22,33 +24,35 @@ export default function SignUp() {
   const handleSignUp = async (e) => {
     e.preventDefault();
 
-    // const profilePic = "";
     let profileImageUrl = "";
 
-    if (!fullName) {
-      setError("Please enter full name.");
-      return;
-    }
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    if (!password) {
-      setError("Please enter the password");
-      return;
-    }
+    if (!fullName) return setError("Please enter full name.");
+    if (!validateEmail(email))
+      return setError("Please enter a valid email address.");
+    if (!password) return setError("Please enter the password");
 
     setError("");
 
-    //SignUp API Call
-
     try {
-      // Upload image if present
+      // Upload profile pic if it exists
       if (profilePic) {
-        const imgUploadsRes = await uploadImage(profilePic);
-        profileImageUrl = imgUploadsRes.imageUrl || "";
+        const formData = new FormData();
+        formData.append("image", profilePic);
+
+        const imgUploadsRes = await axiosInstance.post(
+          "/api/upload-image",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        profileImageUrl = imgUploadsRes.data.imageUrl || "";
       }
+
+      // Register the user
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
         name: fullName,
         email,
@@ -60,15 +64,12 @@ export default function SignUp() {
       const { token } = response.data;
 
       if (token) {
-        localStorage.setItem("token", token); // Save token
-
-        // 🔥 Fetch full user profile immediately after login
+        localStorage.setItem("token", token);
         const profileRes = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
 
         const fullUser = { ...profileRes.data, token };
         updateUser(fullUser);
 
-        // ✅ No need to wait or setTimeout
         if (fullUser.role === "admin") {
           navigate("/admin/dashboard");
         } else {
@@ -81,9 +82,10 @@ export default function SignUp() {
       } else {
         setError("Something went wrong, Please try again.");
       }
-      // setError(error.message);
+      console.log(error);
     }
   };
+
   return (
     <AuthLayout>
       <div className="lg:w-[100%] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center">

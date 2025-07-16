@@ -1,26 +1,26 @@
-import multer from "multer";
+// import multer from "multer";
+// import { v2 as cloudinary } from "cloudinary";
+// import streamifier from "streamifier";
 
-// Configure storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
+// // config your cloudinary
+// cloudinary.config({
+//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+//   api_key: process.env.CLOUDINARY_API_KEY,
+//   api_secret: process.env.CLOUDINARY_API_SECRET,
+// });
 
-// File filter
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = ["image/jpeg", "image/png", "imgage/jpg"];
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only .jpeg, .jpg and .png formats are allowed"), false);
-  }
-};
+// const storage = multer.memoryStorage(); // 🧠 switch to memory!
+// const upload = multer({ storage });
 
-// Define upload AFTER storage + fileFilter
-const upload = multer({ storage, fileFilter });
+// export const uploadToCloudinary = (buffer) => {
+//   return new Promise((resolve, reject) => {
+//     const stream = cloudinary.uploader.upload_stream((error, result) => {
+//       if (result) resolve(result);
+//       else reject(error);
+//     });
 
-export default upload;
+//     streamifier.createReadStream(buffer).pipe(stream);
+//   });
+// };
+
+// export default upload;

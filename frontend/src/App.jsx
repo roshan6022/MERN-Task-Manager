@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/SignUp";
+import Profile from "./pages/Auth/Profile";
 import PrivateRoute from "./routes/PrivateRoute";
 import Dashboard from "./pages/Admin/Dashboard";
 import ManagerTasks from "./pages/Admin/ManageTasks";
@@ -27,6 +28,10 @@ export default function App() {
           <Routes>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/signup" element={<SignUp />}></Route>
+            {/* Profile */}
+            <Route element={<PrivateRoute allowedRoles={["admin", "user"]} />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
 
             {/* Admin Routes */}
             <Route element={<PrivateRoute allowedRoles={"admin"} />}>
@@ -45,6 +50,7 @@ export default function App() {
                 element={<ViewTaskDetails />}
               ></Route>
             </Route>
+
             {/* Default Route */}
             <Route path="/" element={<Root />} />
           </Routes>
