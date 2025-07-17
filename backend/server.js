@@ -12,6 +12,12 @@ dotenv.config();
 
 const app = express();
 
+console.log("🧠 Starting server with ENV:", {
+  PORT: process.env.PORT,
+  CLIENT_URL: process.env.CLIENT_URL,
+  MONGO_URI: process.env.MONGO_URL?.slice(0, 20) + "...", // mask it
+});
+
 // Middleware to handle CORS
 app.use(
   cors({
