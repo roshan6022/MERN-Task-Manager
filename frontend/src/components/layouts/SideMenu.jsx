@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../context/userContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SIDE_MENU_DATA, SIDE_MENU_USER_DATA } from "../../utils/data.js";
 
 const SideMenu = ({ activeMenu }) => {
@@ -38,25 +38,27 @@ const SideMenu = ({ activeMenu }) => {
 
   return (
     <div className="w-64 h-[calc(100vh-61px)] bg-white border-r border-gray-200/500 sticky top-[61px] z-20">
-      <div className="flex flex-col items-center justify-center mb-7 pt-5">
-        <div className="relative">
-          <img
-            src={user?.profileImageUrl || null}
-            alt="Profile Image"
-            className="w-20 h-20 bg-slate-400 rounded-full"
-          />
+      <Link to="/profile">
+        <div className="flex flex-col items-center justify-center mb-7 pt-5">
+          <div className="relative">
+            <img
+              src={user?.profileImageUrl || null}
+              alt="Profile Image"
+              className="w-20 h-20 bg-slate-400 rounded-full"
+            />
+          </div>
+
+          {user?.role === "admin" && <div className="">Admin</div>}
+
+          <h5 className="text-[10px] font-medium text-white bg-primary px-3 py-0.5 rounded mt-1">
+            {user?.name || ""}
+          </h5>
+
+          <p className="text-gray-950 font-medium leading-6 mt-3">
+            {user?.email || ""}
+          </p>
         </div>
-
-        {user?.role === "admin" && <div className="">Admin</div>}
-
-        <h5 className="text-[10px] font-medium text-white bg-primary px-3 py-0.5 rounded mt-1">
-          {user?.name || ""}
-        </h5>
-
-        <p className="text-gray-950 font-medium leading-6 mt-3">
-          {user?.email || ""}
-        </p>
-      </div>
+      </Link>
 
       {sideMenuData.map((item, index) => (
         <button

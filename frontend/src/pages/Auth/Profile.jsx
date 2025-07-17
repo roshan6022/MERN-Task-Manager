@@ -4,6 +4,7 @@ import ProfileSelector from "../../components/Inputs/ProfileSelector";
 import Input from "../../components/Inputs/Input";
 import axiosInstance from "../../utils/axiosInstance.js";
 import { API_PATHS } from "../../utils/apiPaths.js";
+import Navbar from "../../components/layouts/Navbar.jsx";
 
 export default function Profile() {
   const { user, updateUser } = useContext(UserContext);
@@ -107,63 +108,67 @@ export default function Profile() {
   if (!profile) return <div className="text-center p-4">Loading...</div>;
 
   return (
-    <div className="flex">
-      <div className="w-screen h-screen md:w-[60vw] px-12 pt-8 pb-12">
-        <h2 className="text-lg font-medium text-black">Task Manager</h2>
-        <div className="lg:w-full h-auto md:h-full mt-10 flex flex-col justify-center">
-          <form onSubmit={handleSubmit}>
-            <ProfileSelector
-              image={profilePic}
-              setImage={setProfilePic}
-              setUploading={setUploading}
-            />
+    <>
+      <Navbar />
+      <div className="flex items-center justify-center w-screen h-screen">
+        <div className="w-full md:w-[60vw] px-12 pt-8 pb-12">
+          <h2 className="text-lg font-medium text-black">Profile</h2>
 
-            <div className="grid gap-4 mt-4">
-              <Input
-                value={form.fullName}
-                onChange={handleChange("fullName")}
-                label="Full Name"
-                placeholder="Enter your full name"
-                type="text"
+          <div className="lg:w-full h-auto md:h-full mt-10 flex flex-col justify-center">
+            <form onSubmit={handleSubmit}>
+              <ProfileSelector
+                image={profilePic}
+                setImage={setProfilePic}
+                setUploading={setUploading}
               />
-              <Input
-                value={form.email}
-                onChange={handleChange("email")}
-                label="Email Address"
-                placeholder="Enter your email"
-                type="email"
-              />
-              <Input
-                value={currentPassword}
-                onChange={({ target }) => setCurrentPassword(target.value)}
-                label="Current Password"
-                placeholder="Enter current password"
-                type="password"
-              />
-              <Input
-                value={newPassword}
-                onChange={({ target }) => setNewPassword(target.value)}
-                label="New Password"
-                placeholder="Min 8 Characters"
-                type="password"
-              />
-            </div>
 
-            {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
-            {success && (
-              <p className="text-green-500 text-xs mt-2">{success}</p>
-            )}
+              <div className="grid gap-4 mt-4">
+                <Input
+                  value={form.fullName}
+                  onChange={handleChange("fullName")}
+                  label="Full Name"
+                  placeholder="Enter your full name"
+                  type="text"
+                />
+                <Input
+                  value={form.email}
+                  onChange={handleChange("email")}
+                  label="Email Address"
+                  placeholder="Enter your email"
+                  type="email"
+                />
+                <Input
+                  value={currentPassword}
+                  onChange={({ target }) => setCurrentPassword(target.value)}
+                  label="Current Password"
+                  placeholder="Enter current password"
+                  type="password"
+                />
+                <Input
+                  value={newPassword}
+                  onChange={({ target }) => setNewPassword(target.value)}
+                  label="New Password"
+                  placeholder="Min 8 Characters"
+                  type="password"
+                />
+              </div>
 
-            <button
-              type="submit"
-              className="btn-primary mt-4"
-              disabled={loading || uploading}
-            >
-              {loading || uploading ? "Updating..." : "Update"}
-            </button>
-          </form>
+              {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
+              {success && (
+                <p className="text-green-500 text-xs mt-2">{success}</p>
+              )}
+
+              <button
+                type="submit"
+                className="btn-primary mt-4"
+                disabled={loading || uploading}
+              >
+                {loading || uploading ? "Updating..." : "Update"}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

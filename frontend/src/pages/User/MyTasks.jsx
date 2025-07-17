@@ -3,7 +3,7 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance.js";
 import { API_PATHS } from "../../utils/apiPaths.js";
-import { LuFileSpreadsheet } from "react-icons/lu";
+// import { LuFileSpreadsheet } from "react-icons/lu";
 import TaskStatusTabs from "../../components/TaskStatusTabs";
 import TaskCard from "../../components/Cards/TaskCard";
 
@@ -21,7 +21,7 @@ const MyTasks = () => {
           status: filterStatus === "All" ? "" : filterStatus,
         },
       });
-      setAllTasks(response.data?.task?.length > 0 ? response.data.task : []);
+      setAllTasks(response.data?.tasks?.length > 0 ? response.data.tasks : []);
 
       // Map statusSummary data with fixed labels and order
       const statusSummary = response.data?.statusSummary || {};
@@ -62,26 +62,34 @@ const MyTasks = () => {
           )}
         </div>
 
-        <div className="grid gird-cols-1 md:grid-cols-3 gap-4 mt-4">
-          {allTasks?.map((item, index) => (
-            <TaskCard
-              key={item._id}
-              title={item.title}
-              description={item.description}
-              priority={item.priority}
-              status={item.status}
-              progress={item.progress}
-              createdAt={item.createdAt}
-              dueDate={item.dueDate}
-              assignedTo={item.assignedTo?.map((item) => item.profileImageUrl)}
-              attachmentCount={item.attachments?.length || 0}
-              completedTodoCount={item.completedTodoCount || 0}
-              todoChecklist={item.todoChecklist || []}
-              onClick={() => {
-                handleClick(item._id);
-              }}
-            />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          {allTasks.length > 0 ? (
+            allTasks?.map((item, index) => (
+              <TaskCard
+                key={item._id}
+                title={item.title}
+                description={item.description}
+                priority={item.priority}
+                status={item.status}
+                progress={item.progress}
+                createdAt={item.createdAt}
+                dueDate={item.dueDate}
+                assignedTo={item.assignedTo?.map(
+                  (item) => item.profileImageUrl
+                )}
+                attachmentCount={item.attachments?.length || 0}
+                completedTodoCount={item.completedTodoCount || 0}
+                todoChecklist={item.todoChecklist || []}
+                onClick={() => {
+                  handleClick(item._id);
+                }}
+              />
+            ))
+          ) : (
+            <div className="text-center text-gray-500 mt-10">
+              No tasks jhkjhfound.
+            </div>
+          )}
         </div>
       </div>
     </DashboardLayout>
