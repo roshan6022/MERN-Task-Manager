@@ -1,9 +1,19 @@
 import express from "express";
+
 const app = express();
 
 app.get("/", (req, res) => {
   res.send("✅ Backend is alive");
 });
+
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
+
+// ⏱ Add a fake interval to keep the container warm
+setInterval(() => {
+  console.log("💓 Keeping Railway container alive...");
+}, 10000); // every 10 sec
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
