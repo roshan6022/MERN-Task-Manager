@@ -15,14 +15,21 @@ import {
 const router = express.Router();
 
 // Task Management Routes
+// ✅ Specific first
 router.get("/dashboard-data", protect, getDashboardData);
 router.get("/user-dashboard-data", protect, getUserDashboardData);
-router.get("/", protect, getTasks);
-router.get("/:id", protect, getTasksById);
+
+// ✅ Create task
 router.post("/", protect, adminOnly, createTask);
-router.put("/:id", protect, updateTask);
-router.delete("/:id", protect, adminOnly, deleteTask);
+
+// ✅ Specific routes BEFORE /:id
 router.put("/:id/status", protect, updateTaskStatus);
 router.put("/:id/todo", protect, updateTaskChecklist);
+
+// ✅ Then generic ones
+router.get("/", protect, getTasks);
+router.get("/:id", protect, getTasksById);
+router.put("/:id", protect, updateTask);
+router.delete("/:id", protect, adminOnly, deleteTask);
 
 export default router;
