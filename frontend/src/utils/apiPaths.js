@@ -1,5 +1,3 @@
-export const BASE_URL = import.meta.env.VITE_API_URL;
-
 // utils/apiPaths.js
 export const API_PATHS = {
   AUTH: {
