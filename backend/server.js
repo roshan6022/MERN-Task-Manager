@@ -50,13 +50,11 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/tasks", taskRoutes);
-app.use("/api/reports", reportRoutes);
-
-// Server uploads folder
-app.use("/api", uploadImageRoutes);
+// app.use("/api/auth", authRoutes);
+// app.use("/api/users", userRoutes);
+// app.use("/api/tasks", taskRoutes);
+// app.use("/api/reports", reportRoutes);
+// app.use("/api", uploadImageRoutes);
 
 // Start Server
 const PORT = process.env.PORT || 3000;
