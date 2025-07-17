@@ -87,7 +87,7 @@ export const loginUser = async (req, res) => {
 };
 
 //@desc Register a new user
-//@route POST /api/auth/profil
+//@route POST /api/auth/profile
 //@access Private (Requires JWT)
 export const getUserProfile = async (req, res) => {
   try {

@@ -7,8 +7,6 @@ import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance.js";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
-import uploadImage from "../../utils/uploadImage.js";
-import axios from "axios";
 
 export default function SignUp() {
   const [profilePic, setProfilePic] = useState(null);
@@ -17,24 +15,36 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [adminInviteToken, setAdminInviteToken] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
   // Handle SignUp Form Submit
   const handleSignUp = async (e) => {
     e.preventDefault();
+    setLoading(true); // <-- Start loading
 
     let profileImageUrl = "";
 
-    if (!fullName) return setError("Please enter full name.");
-    if (!validateEmail(email))
-      return setError("Please enter a valid email address.");
-    if (!password) return setError("Please enter the password");
+    if (!fullName) {
+      setError("Please enter full name.");
+      setLoading(false);
+      return;
+    }
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      setLoading(false);
+      return;
+    }
+    if (!password) {
+      setError("Please enter the password");
+      setLoading(false);
+      return;
+    }
 
     setError("");
 
     try {
-      // Upload profile pic if it exists
       if (profilePic) {
         const formData = new FormData();
         formData.append("image", profilePic);
@@ -52,7 +62,6 @@ export default function SignUp() {
         profileImageUrl = imgUploadsRes.data.imageUrl || "";
       }
 
-      // Register the user
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
         name: fullName,
         email,
@@ -83,6 +92,8 @@ export default function SignUp() {
         setError("Something went wrong, Please try again.");
       }
       console.log(error);
+    } finally {
+      setLoading(false); // <-- End loading
     }
   };
 
@@ -128,8 +139,12 @@ export default function SignUp() {
           </div>
           {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
-          <button type="submit" className="btn-primary">
-            SIGN UP{" "}
+          <button
+            type="submit"
+            className={`btn-primary ${loading ? "cursor-not-allowed" : ""}`}
+            disabled={loading}
+          >
+            {loading ? "Signing in..." : "LOGIN"}
           </button>
 
           <p className="text-[13px] text-slate-800 mt-3">

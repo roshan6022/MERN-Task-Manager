@@ -55,14 +55,3 @@ export const getUserById = async (req, res) => {
     res.status(500).json({ message: "SERVER ERROR", error: error.message });
   }
 };
-
-//@desc delete a user(Admin Only)
-//@route GET/api/users/:id
-//@access Private (Admin)
-
-// export const deleteUser = async (req, res) => {
-//   try {
-//   } catch (error) {
-//     res.status(500).json({ message: "SERVER ERROR", error: error.message });
-//   }
-// };

@@ -11,6 +11,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -18,14 +19,17 @@ export default function Login() {
   // Handle Login Form Submit
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!validateEmail(email)) {
       setError("Please enter a valid email address.");
+      setLoading(false);
       return;
     }
 
     if (!password) {
       setError("Please enter the password");
+      setLoading(false);
       return;
     }
 
@@ -61,6 +65,8 @@ export default function Login() {
       } else {
         setError("Something went wrong, Please try again.");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,8 +96,12 @@ export default function Login() {
 
           {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
-          <button type="submit" className="btn-primary">
-            LOGIN{" "}
+          <button
+            type="submit"
+            className={`btn-primary ${loading ? "cursor-not-allowed" : ""}`}
+            disabled={loading}
+          >
+            {loading ? "Signing in..." : "LOGIN"}
           </button>
 
           <p className="text-[13px] text-slate-800 mt-3">

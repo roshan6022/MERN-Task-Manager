@@ -12,12 +12,6 @@ dotenv.config();
 
 const app = express();
 
-console.log("🧠 Starting server with ENV:", {
-  PORT: process.env.PORT,
-  CLIENT_URL: process.env.CLIENT_URL,
-  MONGO_URI: process.env.MONGO_URL?.slice(0, 20) + "...", // mask it
-});
-
 // Middleware to handle CORS
 app.use(
   cors({
@@ -28,26 +22,11 @@ app.use(
   })
 );
 
-// Handle OPTIONS preflight for all routes
-app.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL);
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.sendStatus(200);
-});
-
 // Connect to Database
 connectDB();
 
 // Middleware
 app.use(express.json());
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL);
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  next();
-});
 
 // Routes
 app.use("/api/auth", authRoutes);
