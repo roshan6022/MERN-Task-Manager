@@ -13,24 +13,8 @@ dotenv.config();
 const app = express();
 
 // Middleware to handle CORS
-const allowedOrigins = [
-  "http://localhost:3000",
-  "https://mern-task-manager-ecru.vercel.app",
-];
+app.use(cors());
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
 // Connect to Database
 connectDB();
 

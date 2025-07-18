@@ -144,7 +144,7 @@ export default function SignUp() {
             className={`btn-primary ${loading ? "cursor-not-allowed" : ""}`}
             disabled={loading}
           >
-            {loading ? "Signing in..." : "LOGIN"}
+            {loading ? "Signing in..." : "SIGN UP"}
           </button>
 
           <p className="text-[13px] text-slate-800 mt-3">
