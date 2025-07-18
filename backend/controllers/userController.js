@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import Task from "../models/Task.js";
 import User from "../models/User.js";
 

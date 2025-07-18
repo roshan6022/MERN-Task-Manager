@@ -151,5 +151,3 @@ export const updateUserProfile = async (req, res) => {
     res.status(500).json({ message: "SERVER ERROR", error: error.message });
   }
 };
-
-// if you export the whole file and destructure it so, if one things failed whole module fails
