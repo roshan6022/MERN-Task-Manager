@@ -96,7 +96,7 @@ export default function Dashboard() {
             value={addThousandsSeparator(
               dashboardData?.charts?.taskDistribution?.All || 0
             )}
-            color="bg-violet-500"
+            color="bg-primary"
           />
 
           <InfoCard
@@ -104,7 +104,7 @@ export default function Dashboard() {
             value={addThousandsSeparator(
               dashboardData?.charts?.taskDistribution?.Pending || 0
             )}
-            color="bg-primary"
+            color="bg-violet-500"
           />
 
           <InfoCard
