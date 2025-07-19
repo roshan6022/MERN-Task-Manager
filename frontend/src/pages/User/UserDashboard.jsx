@@ -87,7 +87,7 @@ export default function UserDashboard() {
           <InfoCard
             label="Total Tasks"
             value={addThousandsSeparator(
-              dashboardData?.charts?.taskDistribution?.Pending || 0
+              dashboardData?.charts?.taskDistribution?.All || 0
             )}
             color="bg-violet-500"
           />
@@ -95,7 +95,7 @@ export default function UserDashboard() {
           <InfoCard
             label="Pending Tasks"
             value={addThousandsSeparator(
-              dashboardData?.charts?.taskDistribution?.All || 0
+              dashboardData?.charts?.taskDistribution?.Pending || 0
             )}
             color="bg-primary"
           />
